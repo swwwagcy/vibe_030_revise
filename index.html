@@ -1,535 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>雙 12 直播狂歡 | Double 12 Live Carnival</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-deep: #050505;
-            --bg-panel: #141416;
-            --accent: #00d2be;
-            --gold-start: #bf953f;
-            --gold-mid: #fcf6ba;
-            --gold-end: #b38728;
-            --text-main: #ffffff;
-            --text-sub: #d0d0d0;
-            --border-color: rgba(255, 255, 255, 0.15);
-            --row-height: 42px;
-            --font-stack: 'Roboto', 'Noto Sans TC', sans-serif;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: var(--font-stack);
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 20px 15px;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(0, 210, 190, 0.1) 0%, transparent 60%),
-                linear-gradient(180deg, rgba(20,20,20,0) 0%, rgba(0,0,0,1) 100%);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* --- Diamond Styling --- */
-        .d-emoji {
-            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            display: inline-block;
-            line-height: 1;
-            margin-left: 6px;
-            position: relative;
-            top: -0.12em; 
-        }
-
-        .d-cyan {
-            filter: sepia(100%) hue-rotate(125deg) saturate(350%) brightness(1.1) drop-shadow(0 0 5px rgba(0, 210, 190, 0.4));
-        }
-
-        .d-gold-real {
-            filter: sepia(100%) saturate(1000%) hue-rotate(10deg) brightness(1.2) contrast(1.1) drop-shadow(0 0 8px rgba(252, 246, 186, 0.6));
-        }
-
-        .d-label-icon { font-size: 0.75em; } 
-        
-        .d-hero { 
-            font-size: 0.9em; 
-            margin-right: 12px;
-            margin-left: 0;
-            top: 0;
-        }
-
-        /* --- Components --- */
-        .lang-switch {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .lang-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-color);
-            color: #ccc;
-            padding: 4px 14px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
-        }
-
-        .lang-btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: #000;
-            font-weight: 700;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .date-badge {
-            color: var(--accent);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-shadow: 0 0 10px rgba(0, 210, 190, 0.4);
-        }
-
-        h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-            font-style: normal;
-            text-transform: uppercase;
-            color: #fff;
-            text-shadow: 0 0 30px rgba(255,255,255,0.3);
-            white-space: nowrap;
-        }
-
-        .marketing-box { margin-bottom: 20px; }
-
-        .campaign-tag {
-            display: inline-block;
-            background: linear-gradient(90deg, transparent, rgba(0, 210, 190, 0.15), transparent);
-            border-top: 1px solid var(--accent);
-            border-bottom: 1px solid var(--accent);
-            color: #fff;
-            padding: 4px 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        .campaign-highlight {
-            font-size: 1.2rem;
-            font-weight: 500;
-            line-height: 1.8;
-            color: #eee;
-        }
-
-        .gold-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 5px;
-        }
-
-        .gold-text {
-            font-size: clamp(2.2rem, 10vw, 3.5rem);
-            font-weight: 900;
-            background: linear-gradient(to right, var(--gold-start), var(--gold-mid), var(--gold-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(252, 246, 186, 0.2);
-            white-space: nowrap;
-            line-height: 1;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background: var(--accent);
-            color: #000;
-            font-size: 1.1rem;
-            font-weight: 700;
-            padding: 12px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            box-shadow: 0 0 20px rgba(0, 210, 190, 0.3);
-            transition: all 0.2s;
-            margin-top: 2px;
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(0, 210, 190, 0.5);
-            background: #fff;
-        }
-
-        /* --- Dashboard --- */
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .dashboard { grid-template-columns: 1fr; }
-        }
-
-        .dash-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            position: relative;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .dash-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .dash-left { justify-content: space-evenly; }
-        .dash-right { justify-content: center; }
-
-        .stats-block { text-align: center; width: 100%; }
-
-        .stats-label-group {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2px;
-            line-height: 1.5;
-        }
-
-        .stats-label {
-            color: var(--text-sub);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        .stats-val {
-            line-height: 1;
-            font-weight: 900;
-            color: #fff;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            font-family: 'Roboto', sans-serif;
-            justify-content: center;
-            display: flex;
-            align-items: center;
-        }
-
-        .stats-val.rank-text { 
-            font-size: clamp(2.5rem, 8vw, 3.2rem); 
-            color: var(--accent); 
-        }
-        
-        .stats-val.total-text { 
-            font-size: clamp(2rem, 6vw, 2.5rem); 
-            color: #fff; 
-        }
-
-        .divider {
-            width: 60%;
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-            margin: 13px auto;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 44px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .detail-row:last-child { border-bottom: none; }
-        
-        .d-label-group { display: flex; align-items: center; }
-        .d-label { color: var(--text-sub); font-size: 0.9rem; font-weight: 500; }
-        .d-val { 
-            color: #fff; 
-            font-weight: 700; 
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            font-family: 'Roboto', sans-serif; 
-        }
-
-        /* --- Leaderboard --- */
-        .split-header {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-        }
-        
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .col-header {
-            background: #1a1a1d;
-            padding: 12px;
-            color: #fff;
-            font-weight: 700;
-            text-align: center;
-            border-top: 3px solid var(--accent);
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-        }
-
-        .split-body {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            background: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-top: none;
-        }
-
-        @media (max-width: 768px) {
-            .split-header, .split-body { grid-template-columns: 1.3fr 1fr; }
-            .col-header { font-size: 0.9rem; padding: 10px 5px;}
-        }
-
-        .align-row {
-            height: var(--row-height);
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 1rem;
-        }
-        
-        .align-row:last-child { border-bottom: none; }
-
-        .lb-col { border-right: 1px solid var(--border-color); }
-        .lb-rank { width: 40px; font-weight: 900; color: #666; font-style: italic; font-size: 1.1rem; }
-        
-        .lb-score { 
-            margin-left: auto; 
-            color: #fff; 
-            font-weight: 700; 
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        .rank-1 { color: var(--gold-mid); text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); font-size: 1.3rem; }
-        .rank-2 { color: #e0e0e0; text-shadow: 0 0 10px rgba(255, 255, 255, 0.4); font-size: 1.3rem; }
-        .rank-3 { color: #d4a58e; text-shadow: 0 0 10px rgba(212, 165, 142, 0.4); font-size: 1.3rem; }
-
-        .r-val { 
-            width: 100%; 
-            display: flex;
-            align-items: center;
-            justify-content: flex-end; 
-            color: var(--accent); 
-            font-weight: 700; 
-            font-family: 'Roboto', sans-serif; 
-        }
-
-        .rules-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 10px;
-            color: #ccc;
-        }
-        .rules-title { font-weight: 700; color: #fff; margin-bottom: 15px; font-size: 1.1rem; border-left: 3px solid var(--accent); padding-left: 10px;}
-        .rules-list { list-style: none; padding-left: 0; }
-        .rules-list li {
-            margin-bottom: 6px;
-            line-height: 1.5;
-            font-size: 0.9rem;
-            padding-left: 20px;
-            position: relative;
-        }
-        .rules-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0; top: 0;
-            color: var(--accent);
-            font-size: 1.5rem;
-            line-height: 1.3rem;
-        }
-
-        .error-msg {
-            text-align: center;
-            padding: 10px;
-            background: rgba(255, 50, 50, 0.15);
-            color: #ff8080;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 50, 50, 0.3);
-            border-radius: 8px;
-        }
-        
-        .loading-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(2px);
-            border-radius: 8px;
-        }
-        .spinner {
-            width: 30px; height: 30px;
-            border: 3px solid var(--accent);
-            border-top: 3px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .hidden { display: none !important; }
-        .val-blur { filter: blur(4px); opacity: 0.6; }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="lang-switch">
-            <button class="lang-btn active" onclick="setLang('tc')">繁體</button>
-            <button class="lang-btn" onclick="setLang('sc')">简体</button>
-            <button class="lang-btn" onclick="setLang('en')">EN</button>
-            <button class="lang-btn" onclick="setLang('jp')">日本語</button>
-        </div>
-
-        <div class="hero">
-            <div class="date-badge" data-i18n="date">12/12 - 12/17</div>
-            <h1 data-i18n="title">雙 12 直播狂歡</h1>
-            <div class="marketing-box">
-                <div class="campaign-tag" data-i18n="subtitle">直播耗鑽排行榜</div>
-                <div class="campaign-highlight">
-                    <span data-i18n="desc_prefix">應援人氣女神奪大獎，前十名瓜分總計</span><br>
-                    <div class="gold-row">
-                        <span class="d-emoji d-hero d-gold-real">💎</span>
-                        <span class="gold-text">550,000</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="https://creators.swag.live/d12d" class="cta-btn" data-i18n="cta" target="_blank">查看人氣女神活動</a>
-            </div>
-        </div>
-
-        <div id="error-msg" class="error-msg hidden">
-            <span data-i18n="error_desc">讀取失敗</span>
-        </div>
-
-        <!-- Dashboard -->
-        <div id="dashboard-container" class="dashboard" style="position: relative;">
-            <!-- Loading Overlay -->
-            <div id="loading-dash" class="loading-overlay hidden">
-                <div class="spinner"></div>
-            </div>
-
-            <!-- Left: Rank & Total -->
-            <div class="dash-card dash-left">
-                <div class="stats-block">
-                    <div class="stats-label" data-i18n="current_rank">當前排名</div>
-                    <div class="stats-val rank-text" id="disp-rank">--</div>
-                </div>
-                <div class="divider"></div>
-                <div class="stats-block">
-                    <div class="stats-label-group">
-                        <span class="stats-label" data-i18n="total_spent">總消費</span>
-                        <span class="d-emoji d-label-icon d-cyan">💎</span>
-                    </div>
-                    <div class="stats-val total-text">
-                        <span id="disp-total">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right: Details -->
-            <div class="dash-card dash-right">
-                <div class="detail-row">
-                    <div class="d-label-group">
-                        <span class="d-label" data-i18n="breakdown_gift">直播禮物</span>
-                        <span class="d-emoji d-label-icon d-cyan">💎</span>
-                    </div>
-                    <div class="d-val"><span id="disp-gift">0</span></div>
-                </div>
-                <div class="detail-row">
-                    <div class="d-label-group">
-                        <span class="d-label" data-i18n="breakdown_ticket">限時表演</span>
-                        <span class="d-emoji d-label-icon d-cyan">💎</span>
-                    </div>
-                    <div class="d-val"><span id="disp-ticket">0</span></div>
-                </div>
-                <div class="detail-row">
-                    <div class="d-label-group">
-                        <span class="d-label" data-i18n="breakdown_menu">挑逗表演</span>
-                        <span class="d-emoji d-label-icon d-cyan">💎</span>
-                    </div>
-                    <div class="d-val"><span id="disp-command">0</span></div>
-                </div>
-                <div class="detail-row">
-                    <div class="d-label-group">
-                        <span class="d-label" data-i18n="breakdown_lovense">震動控制</span>
-                        <span class="d-emoji d-label-icon d-cyan">💎</span>
-                    </div>
-                    <div class="d-val"><span id="disp-lovense">0</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Leaderboard -->
-        <div class="split-header">
-            <div class="col-header">
-                <div class="header-content">
-                    <span data-i18n="lb_title">總鑽排行榜</span>
-                    <span class="d-emoji d-label-icon d-cyan">💎</span>
-                </div>
-            </div>
-            <div class="col-header">
-                <div class="header-content">
-                    <span data-i18n="rewards_title">排名獎勵</span>
-                    <span class="d-emoji d-label-icon d-cyan">💎</span>
-                </div>
-            </div>
-        </div>
-        <div class="split-body">
-            <div class="lb-col" id="leaderboard-body"></div>
-            <div class="reward-col" id="rewards-body"></div>
-        </div>
-
-        <!-- Rules -->
-        <div class="rules-section">
-            <div class="rules-title" data-i18n="rules_title">活動說明</div>
-            <ul class="rules-list" id="rules-list"></ul>
-        </div>
-    </div>
-
-    <script>
+<script>
         // Integration Logic: API URL
         const API_BASE_URL = "https://campaign-api-905468082258.asia-east1.run.app"; 
+
+        let currentLang = 'tc';
+        let currentErrorState = null; 
 
         const TRANSLATIONS = {
             tc: {
@@ -540,7 +14,6 @@
                 cta: "查看人氣女神活動",
                 current_rank: "當前排名",
                 total_spent: "總消費",
-                error_desc: "讀取失敗，請確認已登入。",
                 lb_title: "總鑽排行榜",
                 rewards_title: "排名獎勵",
                 breakdown_gift: "直播禮物",
@@ -548,6 +21,11 @@
                 breakdown_menu: "挑逗表演",
                 breakdown_lovense: "震動控制",
                 rules_title: "活動說明",
+                err_missing_title: '⚠️ 缺少用戶資訊', 
+                err_missing_desc: '請登入 SWAG 後再使用本頁面。',
+                err_conn_title: '連線錯誤', 
+                err_conn_desc: '無法連接至伺服器，請稍後再試。', 
+                err_data_title: '數據讀取失敗',
                 rules_list: [
                     "直播間總鑽石僅計算：「直播禮物」、「限時表演票券」、「挑逗表演」、「震動控制」。",
                     "排行榜鑽石相同者，以先達成者排名在前。",
@@ -564,7 +42,6 @@
                 cta: "查看人气女神活动",
                 current_rank: "当前排名",
                 total_spent: "总消费",
-                error_desc: "读取失败，请确认已登录。",
                 lb_title: "总钻排行榜",
                 rewards_title: "排名奖励",
                 breakdown_gift: "直播礼物",
@@ -572,6 +49,11 @@
                 breakdown_menu: "挑逗表演",
                 breakdown_lovense: "震动控制",
                 rules_title: "活动说明",
+                err_missing_title: '⚠️ 缺少用户信息', 
+                err_missing_desc: '请登入 SWAG 后再使用本页面。',
+                err_conn_title: '连接错误', 
+                err_conn_desc: '无法连接至服务器，请稍后再试。', 
+                err_data_title: '数据读取失败',
                 rules_list: [
                     "直播间总钻石仅计算：“直播礼物”，“限时表演票券”，“挑逗表演”，“震动控制”。",
                     "排行榜钻石相同者，以先达成者排名在前。",
@@ -588,7 +70,6 @@
                 cta: "View Event",
                 current_rank: "Rank",
                 total_spent: "Total",
-                error_desc: "Load failed. Please log in.",
                 lb_title: "Total Diamond Leaderboard",
                 rewards_title: "Rewards",
                 breakdown_gift: "Livestream Gift",
@@ -596,6 +77,11 @@
                 breakdown_menu: "Tease Show",
                 breakdown_lovense: "Vibe Control",
                 rules_title: "Rules",
+                err_missing_title: '⚠️ Missing User ID', 
+                err_missing_desc: 'Please log in to SWAG before using this page.',
+                err_conn_title: 'Connection Error', 
+                err_conn_desc: 'Unable to connect to server. Please try again later.', 
+                err_data_title: 'Data Error',
                 rules_list: [
                     "Total diamonds calculated from: 'Livestream Gift', 'Paid Show', 'Tease Show', 'Vibe Control' only.",
                     "If diamonds are equal, the first to achieve the amount ranks higher.",
@@ -612,7 +98,6 @@
                 cta: "イベントを見る",
                 current_rank: "現在の順位",
                 total_spent: "合計消費",
-                error_desc: "読み込みに失敗しました。",
                 lb_title: "ランキング",
                 rewards_title: "ランキング報酬",
                 breakdown_gift: "ギフト",
@@ -620,6 +105,11 @@
                 breakdown_menu: "セクシーショー",
                 breakdown_lovense: "リモートバイブ",
                 rules_title: "注意事項",
+                err_missing_title: '⚠️ ユーザー情報不足', 
+                err_missing_desc: 'ご利用にはログインが必要です。',
+                err_conn_title: '通信エラー', 
+                err_conn_desc: 'サーバーに接続できません。後ほどお試しください。', 
+                err_data_title: 'データエラー',
                 rules_list: [
                     "対象：『ギフト』、『有料ショー』、『セクシーショー』、『リモートバイブ』のみ。",
                     "同ダイヤ数の場合は、先に達成した方が上位となります。",
@@ -630,7 +120,7 @@
             }
         };
 
-        // Fallback Data if API fails or for initial state
+        // Fallback Data
         const MOCK_LEADERBOARD = [
             { rank: 1, user_id: '...', total_diamond_cost: 0 },
             { rank: 2, user_id: '...', total_diamond_cost: 0 },
@@ -649,6 +139,7 @@
         let currentLeaderboard = [...MOCK_LEADERBOARD];
 
         function setLang(lang) {
+            currentLang = lang;
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (
@@ -660,6 +151,10 @@
                     btn.classList.add('active');
                 }
             });
+
+            if (currentErrorState) {
+                showError(currentErrorState.type, currentErrorState.debugInfo);
+            }
 
             const t = TRANSLATIONS[lang];
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -676,7 +171,26 @@
             });
         }
 
-        // Render Leaderboard & Rewards
+        function showError(type, debugInfo = '') {
+            currentErrorState = { type, debugInfo };
+            const t = TRANSLATIONS[currentLang];
+            let title = t.err_data_title;
+            let desc = debugInfo;
+            
+            if (type === 'missing') {
+                title = t.err_missing_title;
+                desc = t.err_missing_desc;
+            } else if (type === 'connection') {
+                title = t.err_conn_title;
+                desc = t.err_conn_desc;
+            }
+
+            const errorEl = document.getElementById('error-msg');
+            errorEl.innerHTML = `<h3>${title}</h3><p>${desc}</p>${debugInfo && type !== 'missing' ? `<div class="error-debug">${debugInfo}</div>` : ''}`;
+            errorEl.classList.remove('hidden');
+            document.getElementById('dashboard-container').classList.add('hidden');
+        }
+
         function renderTables() {
             const lbBody = document.getElementById('leaderboard-body');
             lbBody.innerHTML = '';
@@ -689,7 +203,6 @@
 
                 const div = document.createElement('div');
                 div.className = 'align-row';
-                // Handle missing data (0 diamonds) visually with blur/dim if needed, or just 0
                 const scoreText = item.total_diamond_cost > 0 ? item.total_diamond_cost.toLocaleString() : '-';
                 
                 div.innerHTML = `
@@ -709,55 +222,44 @@
             });
         }
 
-        // Integration Logic: User ID Parsing
+        // --- FIXED: User ID Parsing Logic (Copied exactly from index_001) ---
         function getUserId() {
-            // 1. Query Param (?user_id=)
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('user_id')) return urlParams.get('user_id');
-
-            // 2. Hash Param (#user_id= or #/route?user_id=)
-            if (window.location.hash) {
-                // Try parsing entire hash as params first
-                const hashContent = window.location.hash.substring(1); // remove #
-                const hashParams = new URLSearchParams(hashContent);
-                if (hashParams.has('user_id')) return hashParams.get('user_id');
-                
-                // Try finding ? inside hash
-                const splitHash = hashContent.split('?');
-                if (splitHash.length > 1) {
-                    const innerParams = new URLSearchParams(splitHash[1]);
-                    if (innerParams.has('user_id')) return innerParams.get('user_id');
-                }
+            let userId = null;
+            const currentUrl = window.location.href;
+            const regex = /(?:[?&#/]|^)user_id=([^&#]*)/i;
+            
+            // 1. Try direct match
+            const match = currentUrl.match(regex);
+            if (match && match[1]) userId = match[1];
+            
+            // 2. Try decoded match (Critical for iframes)
+            if (!userId) {
+                try {
+                    const decoded = decodeURIComponent(currentUrl);
+                    const m2 = decoded.match(regex);
+                    if (m2 && m2[1]) userId = m2[1];
+                } catch(e){}
             }
-
-            // 3. Regex Fallback (Brute force search in whole URL string for typical MongoID pattern)
-            // Matches 24 hex characters preceded by user_id=
-            const regex = /[?&#]user_id=([a-fA-F0-9]{24})/;
-            const match = window.location.href.match(regex);
-            if (match && match[1]) return match[1];
-
-            return null;
+            return userId;
         }
 
         async function fetchUserData() {
             const userId = getUserId();
             const errorEl = document.getElementById('error-msg');
             const loader = document.getElementById('loading-dash');
+            const dashContainer = document.getElementById('dashboard-container');
             
-            // Reset state
             errorEl.classList.add('hidden');
+            dashContainer.classList.remove('hidden');
 
-            // If user_id is empty, show error message
             if (!userId) {
-                errorEl.classList.remove('hidden');
+                showError('missing');
                 renderTables();
                 return;
             }
 
-            // If user_id exists, show loading on dashboard
             loader.classList.remove('hidden');
 
-            // Default dashboard values
             const resetDashboard = () => {
                 document.getElementById('disp-rank').textContent = '--';
                 document.getElementById('disp-total').textContent = '0';
@@ -767,30 +269,28 @@
             };
 
             try {
-                // Modified to match index_001.html approach
-                const fetchUrl = `${API_BASE_URL}/?user_id=${encodeURIComponent(userId)}`;
+                // --- FIXED: Removed the trailing slash before '?' ---
+                // index_001: API_URL + '?user_id='
+                // Was: API_BASE_URL + '/?user_id=' (This causes 301 Redirects -> CORS Fail)
+                const fetchUrl = `${API_BASE_URL}?user_id=${encodeURIComponent(userId)}`;
 
                 const response = await fetch(fetchUrl, {
                     method: 'GET',
-                    redirect: 'follow', // Added
-                    mode: 'cors',       // Added
+                    redirect: 'follow',
+                    mode: 'cors',
                     credentials: 'omit'
-                    // Removed headers: { 'Content-Type': 'application/json' } to prevent preflight options failure
                 });
 
-                // If 404 (User not found/No stats), treat as valid user with 0 stats.
-                // Do NOT treat as error.
                 if (response.status === 404) {
                     resetDashboard();
-                    renderTables(); // Ensure table renders
+                    renderTables(); 
                     return;
                 }
 
-                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                if (!response.ok) throw new Error(`API Status: ${response.status}`);
 
                 const data = await response.json();
 
-                // 1. Update User Stats
                 if (data.user_stats) {
                     document.getElementById('disp-rank').textContent = data.user_stats.rank;
                     document.getElementById('disp-total').textContent = (data.user_stats.total_diamond_cost || 0).toLocaleString();
@@ -806,16 +306,14 @@
                     resetDashboard();
                 }
 
-                // 2. Update Leaderboard
                 if (data.leaderboard_top_10 && Array.isArray(data.leaderboard_top_10) && data.leaderboard_top_10.length > 0) {
                     currentLeaderboard = data.leaderboard_top_10;
-                    renderTables(); // Re-render with real data
+                    renderTables();
                 }
 
             } catch (err) {
                 console.error("Fetch error:", err);
-                // Even on error, if userId exists, we do NOT show error message per requirements.
-                // Just reset dashboard.
+                showError('connection', err.toString());
                 resetDashboard();
                 renderTables(); 
             } finally {
@@ -825,9 +323,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             setLang('tc');
-            renderTables(); // Initial render with mock data
+            renderTables();
             fetchUserData();
         });
     </script>
-</body>
-</html>
